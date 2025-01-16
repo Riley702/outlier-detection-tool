@@ -28,8 +28,3 @@ The tool bridges the gap between theoretical rigor and practical application, ma
 
 ---
 
-## Installation
-
-To install the package, use `pip`:
-```bash
-pip install outlier-detection-tool
