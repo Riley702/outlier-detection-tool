@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import statsmodels.api as sm
+import utils
 import os
 
 def detect_outliers(file_path, threshold=0.5, output_file="output_with_outliers.csv"):
