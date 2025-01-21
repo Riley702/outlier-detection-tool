@@ -77,6 +77,28 @@ def test_invalid_columns():
 
     os.remove(test_file)
 
+def test_no_outliers_detected():
+    """
+    Test behavior when no outliers are present in the dataset.
+    """
+    # Create a dataset with no significant outliers
+    data = pd.DataFrame({"x": [1, 2, 3, 4, 5], "y": [2, 4, 6, 8, 10]})
+    test_file = "test_no_outliers.csv"
+    data.to_csv(test_file, index=False)
+
+    # Run outlier detection
+    result = detect_outliers(test_file, threshold=1.0)  # Set a high threshold to avoid outliers
+
+    # Assertions
+    assert 'cooks_distance' in result.columns, "Cook's distance column is missing."
+    assert 'outlier' in result.columns, "Outlier flag column is missing."
+    assert not result['outlier'].any(), "No rows should be flagged as outliers."
+
+    # Clean up
+    os.remove(test_file)
+    print("test_no_outliers_detected passed.")
+
+
 
 if __name__ == "__main__":
     test_detect_outliers_basic()
