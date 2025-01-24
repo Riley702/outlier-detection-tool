@@ -91,6 +91,34 @@ def summarize_outliers(data):
     return summary
 
 
+def scale_features(data, columns):
+    """
+    Scale specified numerical columns to a 0-1 range.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        columns (list): List of column names to scale.
+
+    Returns:
+        pd.DataFrame: DataFrame with scaled columns.
+    """
+    logging.info("Scaling specified features to a 0-1 range...")
+    try:
+        data = data.copy()
+        for col in columns:
+            if col in data.columns:
+                min_val = data[col].min()
+                max_val = data[col].max()
+                data[col] = (data[col] - min_val) / (max_val - min_val)
+                logging.info(f"Column '{col}' scaled successfully.")
+            else:
+                logging.warning(f"Column '{col}' not found in the data.")
+        return data
+    except Exception as e:
+        logging.error(f"Error during feature scaling: {e}")
+        raise
+
+
 def main(input_file, threshold=0.5, output_file="output_with_outliers.csv"):
     """
     Main function to detect and summarize outliers.
@@ -112,6 +140,11 @@ def main(input_file, threshold=0.5, output_file="output_with_outliers.csv"):
         logging.info("Summary Statistics:")
         for key, value in summary.items():
             logging.info(f"{key.capitalize()}: {value}")
+
+        # Scale features for further analysis
+        scaled_data = scale_features(processed_data, ['x', 'y'])
+        logging.info("Feature scaling completed. Preview of scaled data:")
+        logging.info(scaled_data.head())
 
     except Exception as e:
         logging.error(f"Error occurred: {e}")
