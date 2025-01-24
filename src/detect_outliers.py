@@ -48,6 +48,15 @@ def detect_outliers(file_path, threshold=0.5, output_file="output_with_outliers.
     data['cooks_distance'] = cooks
     data['outlier'] = data['cooks_distance'] > threshold
 
+    # Add 100 new rows of random data for testing purposes
+    new_data = pd.DataFrame({
+        'x': np.random.rand(100),
+        'y': np.random.rand(100)
+    })
+    new_data['cooks_distance'] = np.nan
+    new_data['outlier'] = False
+    data = pd.concat([data, new_data], ignore_index=True)
+
     # Save output to a CSV file
     if output_file:
         data.to_csv(output_file, index=False)
