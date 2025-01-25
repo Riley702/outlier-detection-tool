@@ -1,0 +1,29 @@
+import pandas as pd
+import logging
+
+def normalize_columns(data, columns):
+    """
+    Normalize specified numerical columns to have a mean of 0 and a standard deviation of 1.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        columns (list): List of column names to normalize.
+
+    Returns:
+        pd.DataFrame: DataFrame with normalized columns.
+    """
+    logging.info("Normalizing specified columns to mean=0 and std=1...")
+    try:
+        data = data.copy()
+        for col in columns:
+            if col in data.columns:
+                mean = data[col].mean()
+                std = data[col].std()
+                data[col] = (data[col] - mean) / std
+                logging.info(f"Column '{col}' normalized successfully.")
+            else:
+                logging.warning(f"Column '{col}' not found in the data.")
+        return data
+    except Exception as e:
+        logging.error(f"Error during column normalization: {e}")
+        raise
