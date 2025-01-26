@@ -82,6 +82,27 @@ def summarize_outliers(data):
     return summary
 
 
+def add_random_data(data, num_rows=100):
+    """
+    Add random data to an existing DataFrame.
+
+    Args:
+        data (pd.DataFrame): Original DataFrame to which random data will be added.
+        num_rows (int): Number of random rows to add.
+
+    Returns:
+        pd.DataFrame: DataFrame with added random data.
+    """
+    logging.info(f"Adding {num_rows} random rows to the data.")
+    random_data = pd.DataFrame({
+        'x': np.random.rand(num_rows),
+        'y': np.random.rand(num_rows),
+        'cooks_distance': np.nan,
+        'outlier': False
+    })
+    return pd.concat([data, random_data], ignore_index=True)
+
+
 def main(input_file, threshold=0.5, output_file="output_with_outliers.csv"):
     """
     Main function to detect and summarize outliers.
@@ -97,6 +118,12 @@ def main(input_file, threshold=0.5, output_file="output_with_outliers.csv"):
 
         # Summarize results
         summary = summarize_outliers(processed_data)
+
+        # Add random data for testing
+        processed_data = add_random_data(processed_data, 100)
+
+        # Save the updated data with random rows
+        processed_data.to_csv(output_file, index=False)
 
         # Display summary
         logging.info("Outlier Detection Completed")
