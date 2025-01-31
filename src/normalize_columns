@@ -27,3 +27,59 @@ def normalize_columns(data, columns):
     except Exception as e:
         logging.error(f"Error during column normalization: {e}")
         raise
+
+def standardize_columns(data, columns):
+    """
+    Standardize specified numerical columns to have a min-max range of 0 to 1.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        columns (list): List of column names to standardize.
+
+    Returns:
+        pd.DataFrame: DataFrame with standardized columns.
+    """
+    logging.info("Standardizing specified columns to range 0-1...")
+    try:
+        data = data.copy()
+        for col in columns:
+            if col in data.columns:
+                min_val = data[col].min()
+                max_val = data[col].max()
+                data[col] = (data[col] - min_val) / (max_val - min_val)
+                logging.info(f"Column '{col}' standardized successfully.")
+            else:
+                logging.warning(f"Column '{col}' not found in the data.")
+        return data
+    except Exception as e:
+        logging.error(f"Error during column standardization: {e}")
+        raise
+
+def remove_outliers(data, columns, threshold=3):
+    """
+    Remove outliers in specified numerical columns using a Z-score threshold.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        columns (list): List of column names to check for outliers.
+        threshold (float): Z-score threshold to identify outliers (default=3).
+
+    Returns:
+        pd.DataFrame: DataFrame with outliers removed.
+    """
+    logging.info(f"Removing outliers using Z-score threshold of {threshold}...")
+    try:
+        data = data.copy()
+        for col in columns:
+            if col in data.columns:
+                mean = data[col].mean()
+                std = data[col].std()
+                z_scores = (data[col] - mean) / std
+                data = data[abs(z_scores) <= threshold]
+                logging.info(f"Outliers removed from column '{col}'.")
+            else:
+                logging.warning(f"Column '{col}' not found in the data.")
+        return data
+    except Exception as e:
+        logging.error(f"Error during outlier removal: {e}")
+        raise
