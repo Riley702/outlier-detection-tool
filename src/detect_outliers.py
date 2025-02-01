@@ -149,6 +149,39 @@ def main(input_file, threshold=0.5, output_file="output_with_outliers.csv"):
     except Exception as e:
         logging.error(f"Error occurred: {e}")
 
+def remove_missing_values(data):
+    """
+    Remove rows with missing values from the dataset.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+
+    Returns:
+        pd.DataFrame: Cleaned DataFrame with missing values removed.
+    """
+    logging.info("Removing rows with missing values...")
+    cleaned_data = data.dropna()
+    logging.info(f"Removed {len(data) - len(cleaned_data)} rows with missing values.")
+    return cleaned_data
+
+
+def detect_high_variance_features(data, threshold=1.0):
+    """
+    Identify columns with high variance exceeding a given threshold.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        threshold (float): Variance threshold to identify high variance features.
+
+    Returns:
+        list: List of column names with variance above the threshold.
+    """
+    logging.info("Detecting high variance features...")
+    high_variance_features = [col for col in data.select_dtypes(include=[np.number]).columns 
+                              if data[col].var() > threshold]
+    logging.info(f"High variance features detected: {high_variance_features}")
+    return high_variance_features
+
 
 if __name__ == "__main__":
     # Example usage
