@@ -103,6 +103,38 @@ def add_random_data(data, num_rows=100):
     return pd.concat([data, random_data], ignore_index=True)
 
 
+def remove_duplicates(data):
+    """
+    Remove duplicate rows from the dataset.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+
+    Returns:
+        pd.DataFrame: DataFrame without duplicate rows.
+    """
+    logging.info("Removing duplicate rows...")
+    cleaned_data = data.drop_duplicates()
+    logging.info(f"Removed {len(data) - len(cleaned_data)} duplicate rows.")
+    return cleaned_data
+
+
+def calculate_correlation(data):
+    """
+    Calculate the correlation matrix for numerical columns in the dataset.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+
+    Returns:
+        pd.DataFrame: Correlation matrix of numerical columns.
+    """
+    logging.info("Calculating correlation matrix...")
+    correlation_matrix = data.corr()
+    logging.info("Correlation matrix calculated successfully.")
+    return correlation_matrix
+
+
 def main(input_file, threshold=0.5, output_file="output_with_outliers.csv"):
     """
     Main function to detect and summarize outliers.
@@ -119,8 +151,13 @@ def main(input_file, threshold=0.5, output_file="output_with_outliers.csv"):
         # Summarize results
         summary = summarize_outliers(processed_data)
 
-        # Add random data for testing
-        processed_data = add_random_data(processed_data, 100)
+        # Remove duplicate rows
+        processed_data = remove_duplicates(processed_data)
+
+        # Calculate correlation matrix
+        correlation_matrix = calculate_correlation(processed_data)
+        logging.info("Correlation matrix:")
+        logging.info(f"{correlation_matrix}")
 
         # Save the updated data with random rows
         processed_data.to_csv(output_file, index=False)
