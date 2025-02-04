@@ -83,3 +83,54 @@ def remove_outliers(data, columns, threshold=3):
     except Exception as e:
         logging.error(f"Error during outlier removal: {e}")
         raise
+
+def compute_summary_statistics(data, columns):
+    """
+    Compute summary statistics (mean, median, std, min, max) for specified numerical columns.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        columns (list): List of column names to compute statistics for.
+
+    Returns:
+        pd.DataFrame: DataFrame with computed summary statistics.
+    """
+    logging.info("Computing summary statistics...")
+    try:
+        stats = data[columns].describe().transpose()
+        logging.info("Summary statistics computed successfully.")
+        return stats
+    except Exception as e:
+        logging.error(f"Error computing summary statistics: {e}")
+        raise
+
+def fill_missing_values(data, columns, strategy="mean"):
+    """
+    Fill missing values in specified columns using a chosen strategy (mean, median, or mode).
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        columns (list): List of column names to fill missing values.
+        strategy (str): Strategy to fill missing values ("mean", "median", "mode").
+
+    Returns:
+        pd.DataFrame: DataFrame with missing values filled.
+    """
+    logging.info(f"Filling missing values using strategy: {strategy}")
+    try:
+        data = data.copy()
+        for col in columns:
+            if col in data.columns:
+                if strategy == "mean":
+                    data[col].fillna(data[col].mean(), inplace=True)
+                elif strategy == "median":
+                    data[col].fillna(data[col].median(), inplace=True)
+                elif strategy == "mode":
+                    data[col].fillna(data[col].mode()[0], inplace=True)
+                logging.info(f"Missing values filled for column '{col}' using {strategy} strategy.")
+            else:
+                logging.warning(f"Column '{col}' not found in the data.")
+        return data
+    except Exception as e:
+        logging.error(f"Error filling missing values: {e}")
+        raise
