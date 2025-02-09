@@ -80,3 +80,64 @@ def convert_column_to_numeric(data, column):
     except Exception as e:
         logging.error(f"Error occurred during column conversion: {e}")
         raise
+
+def rename_columns(data, column_mappings):
+    """
+    Rename columns in the DataFrame based on a given mapping.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        column_mappings (dict): Dictionary mapping old column names to new names.
+
+    Returns:
+        pd.DataFrame: DataFrame with renamed columns.
+    """
+    logging.info(f"Renaming columns: {column_mappings}")
+    try:
+        data = data.rename(columns=column_mappings)
+        logging.info("Columns renamed successfully.")
+        return data
+    except Exception as e:
+        logging.error(f"Error occurred during column renaming: {e}")
+        raise
+
+def sort_data(data, column, ascending=True):
+    """
+    Sort the DataFrame based on a specified column.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        column (str): Column name to sort by.
+        ascending (bool): Whether to sort in ascending order (default=True).
+
+    Returns:
+        pd.DataFrame: Sorted DataFrame.
+    """
+    logging.info(f"Sorting data by column '{column}', ascending={ascending}")
+    try:
+        sorted_data = data.sort_values(by=column, ascending=ascending)
+        logging.info("Data sorted successfully.")
+        return sorted_data
+    except Exception as e:
+        logging.error(f"Error occurred during sorting: {e}")
+        raise
+
+def compute_unique_values(data, column):
+    """
+    Compute the number of unique values in a specified column.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        column (str): Column name to count unique values.
+
+    Returns:
+        int: Number of unique values in the column.
+    """
+    logging.info(f"Computing unique values in column '{column}'")
+    try:
+        unique_count = data[column].nunique()
+        logging.info(f"Column '{column}' has {unique_count} unique values.")
+        return unique_count
+    except Exception as e:
+        logging.error(f"Error occurred while computing unique values: {e}")
+        raise
