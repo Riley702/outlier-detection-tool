@@ -39,3 +39,44 @@ def clean_data(file_path, output_file="cleaned_data.csv"):
     except Exception as e:
         logging.error(f"Error occurred during data cleaning: {e}")
         raise
+
+def filter_data(data, column, threshold):
+    """
+    Filters data based on a threshold value for a specific column.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        column (str): Column name to apply the threshold.
+        threshold (float): Threshold value to filter the data.
+
+    Returns:
+        pd.DataFrame: Filtered DataFrame.
+    """
+    logging.info(f"Filtering data where {column} >= {threshold}")
+    try:
+        filtered_data = data[data[column] >= threshold]
+        logging.info(f"Filtered {len(data) - len(filtered_data)} rows below the threshold.")
+        return filtered_data
+    except Exception as e:
+        logging.error(f"Error occurred during data filtering: {e}")
+        raise
+
+def convert_column_to_numeric(data, column):
+    """
+    Converts a specified column to numeric format, handling errors gracefully.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        column (str): Column name to convert to numeric.
+
+    Returns:
+        pd.DataFrame: DataFrame with the column converted to numeric.
+    """
+    logging.info(f"Converting column {column} to numeric format...")
+    try:
+        data[column] = pd.to_numeric(data[column], errors='coerce')
+        logging.info(f"Column {column} converted to numeric successfully.")
+        return data
+    except Exception as e:
+        logging.error(f"Error occurred during column conversion: {e}")
+        raise
