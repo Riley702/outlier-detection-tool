@@ -24,7 +24,6 @@ def test_detect_outliers_basic():
     os.remove(test_file)
     print("test_detect_outliers_basic passed.")
 
-
 def test_summarize_outliers():
     """
     Test the summarize_outliers function for correct statistical output.
@@ -45,7 +44,6 @@ def test_summarize_outliers():
 
     print("test_summarize_outliers passed.")
 
-
 def test_missing_file():
     """
     Test behavior when a non-existent file is provided.
@@ -57,7 +55,6 @@ def test_missing_file():
         print("test_missing_file passed.")
     else:
         raise AssertionError("FileNotFoundError was not raised as expected.")
-
 
 def test_invalid_columns():
     """
@@ -98,11 +95,45 @@ def test_no_outliers_detected():
     os.remove(test_file)
     print("test_no_outliers_detected passed.")
 
+def test_outlier_removal_effect():
+    """
+    Test whether removing outliers changes the dataset size correctly.
+    """
+    data = pd.DataFrame({
+        "x": [1, 2, 3, 4, 5, 100],
+        "y": [2, 4, 6, 8, 10, 200],
+        "outlier": [False, False, False, False, False, True]
+    })
+    
+    data_filtered = data[~data['outlier']]
+    
+    assert len(data_filtered) == 5, "Outlier removal did not adjust dataset size correctly."
+    print("test_outlier_removal_effect passed.")
 
+def test_outlier_summary_consistency():
+    """
+    Test if summary statistics remain consistent before and after removing outliers.
+    """
+    data = pd.DataFrame({
+        "x": [1, 2, 3, 4, 5, 100],
+        "y": [2, 4, 6, 8, 10, 200],
+        "outlier": [False, False, False, False, False, True]
+    })
+    
+    summary_before = summarize_outliers(data)
+    data_filtered = data[~data['outlier']]
+    summary_after = summarize_outliers(data_filtered)
+    
+    assert summary_before["outliers"] == 1, "Initial summary miscounts outliers."
+    assert summary_after["outliers"] == 0, "Filtered summary should not contain outliers."
+    print("test_outlier_summary_consistency passed.")
 
 if __name__ == "__main__":
     test_detect_outliers_basic()
     test_summarize_outliers()
     test_missing_file()
     test_invalid_columns()
+    test_no_outliers_detected()
+    test_outlier_removal_effect()
+    test_outlier_summary_consistency()
     print("All tests passed successfully.")
