@@ -16,7 +16,4 @@ def calculate_statistics(data, column):
     try:
 
 
-    except Exception as e:
-        logging.error(f"Error while calculating statistics: {e}")
-        raise
 
