@@ -13,7 +13,6 @@ def calculate_statistics(data, column):
 
     Returns:
 
-    try:
 
 
 
