@@ -1,7 +1,6 @@
 import pandas as pd
 import logging
 
-# Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 def calculate_statistics(data, column):
