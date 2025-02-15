@@ -11,7 +11,6 @@ def calculate_statistics(data, column):
         data (pd.DataFrame): DataFrame containing the data.
         column (str): Name of the column to calculate statistics for.
 
-    Returns:
 
 
 
