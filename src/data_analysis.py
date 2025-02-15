@@ -26,9 +26,3 @@ def calculate_statistics(data, column):
         logging.error(f"Error while calculating statistics: {e}")
         raise
 
-if __name__ == "__main__":
-
-
-    column = 'x'
-    stats = calculate_statistics(data, column)
-    print(f"Statistics for '{column}': {stats}")
