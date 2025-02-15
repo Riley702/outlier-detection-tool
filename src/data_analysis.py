@@ -20,18 +20,7 @@ def calculate_statistics(data, column):
 
 
     try:
-        mean = data[column].mean()
-        median = data[column].median()
-        std_dev = data[column].std()
 
-        stats = {
-            "mean": mean,
-            "median": median,
-            "std_dev": std_dev
-        }
-
-        logging.info(f"Statistics for column '{column}': {stats}")
-        return stats
 
     except Exception as e:
         logging.error(f"Error while calculating statistics: {e}")
