@@ -12,12 +12,6 @@ def calculate_statistics(data, column):
         column (str): Name of the column to calculate statistics for.
 
     Returns:
-        dict: Dictionary containing mean, median, and standard deviation.
-    """
-    if column not in data.columns:
-        logging.error(f"Column '{column}' not found in the data.")
-        raise ValueError(f"Column '{column}' does not exist in the DataFrame.")
-
 
     try:
 
