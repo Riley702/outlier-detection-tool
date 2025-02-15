@@ -18,7 +18,6 @@ def calculate_statistics(data, column):
         logging.error(f"Column '{column}' not found in the data.")
         raise ValueError(f"Column '{column}' does not exist in the DataFrame.")
 
-    logging.info(f"Calculating statistics for column: {column}")
 
     try:
         mean = data[column].mean()
