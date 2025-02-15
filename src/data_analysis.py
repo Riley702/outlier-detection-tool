@@ -38,11 +38,7 @@ def calculate_statistics(data, column):
         raise
 
 if __name__ == "__main__":
-    # Example usage
-    data = pd.DataFrame({
-        'x': [1, 2, 3, 4, 5],
-        'y': [2, 4, 6, 8, 10]
-    })
+
 
     column = 'x'
     stats = calculate_statistics(data, column)
