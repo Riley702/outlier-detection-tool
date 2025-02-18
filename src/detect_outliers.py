@@ -4,7 +4,7 @@ import statsmodels.api as sm
 import os
 import logging
 
-# Configure logging
+# Configure logging 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 def detect_outliers(file_path, threshold=0.5, output_file="output_with_outliers.csv"):
