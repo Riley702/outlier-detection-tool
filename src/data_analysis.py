@@ -134,21 +134,3 @@ def compute_correlation_matrix(data):
     except Exception as e:
         logging.error(f"Error while computing correlation matrix: {e}")
         raise
-
-if __name__ == "__main__":
-    # Example usage
-    data = pd.DataFrame({
-        'x': [1, 2, 3, 4, 5],
-        'y': [2, 4, 6, 8, 10]
-    })
-
-    column = 'x'
-    stats = calculate_statistics(data, column)
-    print(f"Statistics for '{column}': {stats}")
-    
-    missing_values = detect_missing_values(data)
-    print(f"Missing values per column: {missing_values}")
-    
-    normalized_data = normalize_column(data, column)
-    print(f"Normalized '{column}' column:")
-    print(normalized_data)
