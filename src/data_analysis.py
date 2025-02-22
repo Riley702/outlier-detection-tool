@@ -82,6 +82,39 @@ def normalize_column(data, column):
     except Exception as e:
         logging.error(f"Error while normalizing column '{column}': {e}")
         raise
+def replace_missing_values(data, column, method="mean"):
+    """
+    Replace missing values in a specified column using mean, median, or mode.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        column (str): Name of the column to process.
+        method (str): Strategy to replace missing values (options: "mean", "median", "mode").
+
+    Returns:
+        pd.DataFrame: DataFrame with missing values replaced.
+    """
+    if column not in data.columns:
+        logging.error(f"Column '{column}' not found in the data.")
+        raise ValueError(f"Column '{column}' does not exist in the DataFrame.")
+
+    logging.info(f"Replacing missing values in column: {column} using {method} method.")
+
+    try:
+        if method == "mean":
+            data[column].fillna(data[column].mean(), inplace=True)
+        elif method == "median":
+            data[column].fillna(data[column].median(), inplace=True)
+        elif method == "mode":
+            data[column].fillna(data[column].mode()[0], inplace=True)
+        else:
+            raise ValueError("Method should be 'mean', 'median', or 'mode'.")
+
+        logging.info(f"Missing values in column '{column}' replaced successfully.")
+        return data
+    except Exception as e:
+        logging.error(f"Error while replacing missing values in column '{column}': {e}")
+        raise
 
 if __name__ == "__main__":
     # Example usage
