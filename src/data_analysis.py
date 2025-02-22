@@ -116,6 +116,25 @@ def replace_missing_values(data, column, method="mean"):
         logging.error(f"Error while replacing missing values in column '{column}': {e}")
         raise
 
+def compute_correlation_matrix(data):
+    """
+    Compute the correlation matrix for numerical columns in the DataFrame.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+
+    Returns:
+        pd.DataFrame: Correlation matrix.
+    """
+    logging.info("Computing correlation matrix for numerical columns...")
+    try:
+        correlation_matrix = data.corr()
+        logging.info("Correlation matrix computed successfully.")
+        return correlation_matrix
+    except Exception as e:
+        logging.error(f"Error while computing correlation matrix: {e}")
+        raise
+
 if __name__ == "__main__":
     # Example usage
     data = pd.DataFrame({
