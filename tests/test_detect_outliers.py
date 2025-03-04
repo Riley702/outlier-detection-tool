@@ -4,7 +4,7 @@ from outlier_detection_tool.detect_outliers import detect_outliers, summarize_ou
 
 def test_detect_outliers_basic():
     """
-    Test the basic functionality of detecting outliers in .
+    Test the basic functionality of detecting  in .
     """
     # Create a sample dataset
     data = pd.DataFrame({"x": [1, 2, 3, 4, 5, 100], "y": [2, 4, 6, 8, 10, 200]})
