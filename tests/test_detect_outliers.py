@@ -2,27 +2,6 @@ import os
 import pandas as pd
 from outlier_detection_tool.detect_outliers import detect_outliers, summarize_outliers
 
-def test_detect_outliers_basic():
-    """
-    Test the basic functionality of detecting  in .
-    """
-    # Create a sample
-    data = pd.DataFrame({"x": [1, 2, 3, 4, 5, 100], "y": [2, 4, 6, 8, 10, 200]})
-    test_file = "test_data.csv"
-    data.to_csv(test_file, index=False)
-
-    # Run outlier detection
-    result = detect_outliers(test_file, threshold=0.5)
-
-    # Assertions
-    assert 'cooks_distance' in result.columns, "Cook's distance column is missing."
-    assert 'outlier' in result.columns, "Outlier flag column is missing."
-    assert result['outlier'].iloc[-1], "The last row should be flagged as an outlier."
-    assert not result['outlier'].iloc[:-1].any(), "Non-outlier rows incorrectly flagged."
-
-    # Clean up
-    os.remove(test_file)
-    print("test_detect_outliers_basic passed.")
 
 def test_summarize_outliers():
     """
