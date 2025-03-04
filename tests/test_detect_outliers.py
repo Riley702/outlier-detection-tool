@@ -6,7 +6,7 @@ def test_detect_outliers_basic():
     """
     Test the basic functionality of detecting  in .
     """
-    # Create a sample dataset
+    # Create a sample
     data = pd.DataFrame({"x": [1, 2, 3, 4, 5, 100], "y": [2, 4, 6, 8, 10, 200]})
     test_file = "test_data.csv"
     data.to_csv(test_file, index=False)
