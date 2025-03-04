@@ -1,7 +1,27 @@
-import os
 import pandas as pd
 from outlier_detection_tool.detect_outliers import detect_outliers, summarize_outliers
 
+def test_detect_outliers_basic():
+    """
+    Test the basic functionality of detecting outliers in a small dataset.
+    """
+    # Create a sample dataset
+    data = pd.DataFrame({"x": [1, 2, 3, 4, 5, 100], "y": [2, 4, 6, 8, 10, 200]})
+    test_file = "test_data.csv"
+    data.to_csv(test_file, index=False)
+
+    # Run outlier detection
+    result = detect_outliers(test_file, threshold=0.5)
+
+    # Assertions
+    assert 'cooks_distance' in result.columns, "Cook's distance column is missing."
+    assert 'outlier' in result.columns, "Outlier flag column is missing."
+    assert result['outlier'].iloc[-1], "The last row should be flagged as an outlier."
+    assert not result['outlier'].iloc[:-1].any(), "Non-outlier rows incorrectly flagged."
+
+    # Clean up
+    os.remove(test_file)
+    print("test_detect_outliers_basic passed.")
 
 def test_summarize_outliers():
     """
@@ -106,6 +126,63 @@ def test_outlier_summary_consistency():
     assert summary_before["outliers"] == 1, "Initial summary miscounts outliers."
     assert summary_after["outliers"] == 0, "Filtered summary should not contain outliers."
     print("test_outlier_summary_consistency passed.")
+
+def test_summarize_outliers():
+    """
+    Test the summarize_outliers function for correct statistical output.
+    """
+    data = pd.DataFrame({
+        "x": [1, 2, 3, 4, 5, 100],
+        "y": [2, 4, 6, 8, 10, 200],
+        "cooks_distance": [0.001, 0.002, 0.003, 0.004, 0.005, 0.8],
+        "outlier": [False, False, False, False, False, True],
+    })
+
+    summary = summarize_outliers(data)
+
+    assert summary["total_points"] == 6, "Total points calculation is incorrect."
+    assert summary["outliers"] == 1, "Outlier count calculation is incorrect."
+    assert summary["non_outliers"] == 5, "Non-outlier count calculation is incorrect."
+    assert summary["outlier_percentage"] == (1 / 6) * 100, "Outlier percentage is incorrect."
+
+    print("test_summarize_outliers passed.")
+
+def test_outlier_percentage_consistency():
+    """
+    Test if outlier percentage calculation remains consistent after filtering.
+    """
+    data = pd.DataFrame({
+        "x": range(1, 21),
+        "y": range(2, 42, 2),
+        "outlier": [False] * 18 + [True, True]
+    })
+
+    summary_before = summarize_outliers(data)
+    filtered_data = data[~data["outlier"]]
+    summary_after = summarize_outliers(filtered_data)
+
+    assert summary_before["outlier_percentage"] > summary_after["outlier_percentage"], "Outlier percentage should decrease after filtering."
+    print("test_outlier_percentage_consistency passed.")
+
+def test_large_dataset_performance():
+    """
+    Test the performance of the outlier detection function with a large dataset.
+    """
+    data = pd.DataFrame({
+        "x": range(1, 10001),
+        "y": range(2, 20002, 2)
+    })
+
+    test_file = "large_test_data.csv"
+    data.to_csv(test_file, index=False)
+
+    try:
+        result = detect_outliers(test_file, threshold=0.5)
+        assert len(result) == 10000, "The result should contain the same number of rows as the input."
+        print("test_large_dataset_performance passed.")
+    finally:
+        os.remove(test_file)
+
 
 if __name__ == "__main__":
     test_detect_outliers_basic()
