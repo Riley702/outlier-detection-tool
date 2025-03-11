@@ -221,4 +221,3 @@ def replace_missing_values(data, strategy="mean"):
     except Exception as e:
         logging.error(f"Error occurred while replacing missing values: {e}")
         raise
-
