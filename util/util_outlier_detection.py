@@ -6,9 +6,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 
 def clean_data(file_path, output_file="cleaned_data.csv"):
     """
-    Cleans the input CSV data by removing duplicates and handling missing values.
-
-    Args:
+   
         file_path (str): Path to the input CSV file.
         output_file (str): Path to save the cleaned data.
 
