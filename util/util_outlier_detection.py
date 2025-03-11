@@ -164,8 +164,6 @@ def sort_data(data, column, ascending=True):
         logging.error(f"Error occurred during sorting: {e}")
         raise
 
-
-
 def detect_outliers_iqr(data, column, threshold=1.5):
     """
     Detects outliers in a numerical column using the Interquartile Range (IQR) method.
@@ -194,5 +192,33 @@ def detect_outliers_iqr(data, column, threshold=1.5):
     except Exception as e:
         logging.error(f"Error occurred while detecting outliers: {e}")
         raise
+        
+def replace_missing_values(data, strategy="mean"):
+    """
+    Replaces missing values in numerical columns based on the specified strategy.
 
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        strategy (str): Strategy for replacing missing values ('mean', 'median', 'mode').
+
+    Returns:
+        pd.DataFrame: DataFrame with missing values replaced.
+    """
+    logging.info(f"Replacing missing values using strategy: {strategy}")
+    try:
+        if strategy not in ["mean", "median", "mode"]:
+            raise ValueError("Invalid strategy. Choose 'mean', 'median', or 'mode'.")
+
+        if strategy == "mean":
+            data = data.fillna(data.mean())
+        elif strategy == "median":
+            data = data.fillna(data.median())
+        elif strategy == "mode":
+            data = data.fillna(data.mode().iloc[0])
+
+        logging.info("Missing values replaced successfully.")
+        return data
+    except Exception as e:
+        logging.error(f"Error occurred while replacing missing values: {e}")
+        raise
 
