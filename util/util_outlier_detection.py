@@ -1,3 +1,4 @@
+
 import pandas as pd
 import logging
 
@@ -6,8 +7,13 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 
 def clean_data(file_path, output_file="cleaned_data.csv"):
     """
-   
-       
+    Cleans the input CSV data by removing duplicates and handling missing values.
+
+    Args:
+        file_path (str): Path to the input CSV file.
+        output_file (str): Path to save the cleaned data.
+
+    Returns:
         pd.DataFrame: Cleaned DataFrame.
     """
     logging.info(f"Starting data cleaning for file: {file_path}")
@@ -136,3 +142,57 @@ def compute_unique_values(data, column):
     except Exception as e:
         logging.error(f"Error occurred while computing unique values: {e}")
         raise
+
+def sort_data(data, column, ascending=True):
+    """
+    Sort the DataFrame based on a specified column.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        column (str): Column name to sort by.
+        ascending (bool): Whether to sort in ascending order (default=True).
+
+    Returns:
+        pd.DataFrame: Sorted DataFrame.
+    """
+    logging.info(f"Sorting data by column '{column}', ascending={ascending}")
+    try:
+        sorted_data = data.sort_values(by=column, ascending=ascending)
+        logging.info("Data sorted successfully.")
+        return sorted_data
+    except Exception as e:
+        logging.error(f"Error occurred during sorting: {e}")
+        raise
+
+
+
+def detect_outliers_iqr(data, column, threshold=1.5):
+    """
+    Detects outliers in a numerical column using the Interquartile Range (IQR) method.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        column (str): Column name to check for outliers.
+        threshold (float): Threshold multiplier for defining outliers (default is 1.5).
+
+    Returns:
+        pd.DataFrame: Subset of the original DataFrame containing only outlier rows.
+    """
+    logging.info(f"Detecting outliers in column '{column}' using IQR method.")
+    try:
+        Q1 = data[column].quantile(0.25)
+        Q3 = data[column].quantile(0.75)
+        IQR = Q3 - Q1
+
+        lower_bound = Q1 - (threshold * IQR)
+        upper_bound = Q3 + (threshold * IQR)
+
+        outliers = data[(data[column] < lower_bound) | (data[column] > upper_bound)]
+        logging.info(f"Detected {len(outliers)} outliers in column '{column}'.")
+
+        return outliers
+    except Exception as e:
+        logging.error(f"Error occurred while detecting outliers: {e}")
+        raise
+
+
