@@ -184,19 +184,24 @@ def detect_high_variance_features(data, threshold=1.0):
 
 def flag_extreme_values(data, column, z_threshold=3):
     """
-    Flag extreme values in a column using the Z-score method.
-
-    Args:
-        data (pd.DataFrame): DataFrame containing the data.
-        column (str): Column name to evaluate.
-        z_threshold (float): Z-score threshold for identifying extreme values.
-
-    Returns:
-        pd.DataFrame: DataFrame with an additional boolean column indicating extreme values.
+    
     """
     logging.info(f"Flagging extreme values in column '{column}' using Z-score threshold: {z_threshold}")
     
+    if column not in data.columns:
+        logging.error(f"Column '{column}' not found in the dataset.")
+        raise ValueError(f"Column '{column}' does not exist in the DataFrame.")
 
+    try:
+        mean = data[column].mean()
+        std = data[column].std()
+        z_scores = (data[column] - mean) / std
+        data[f"{column}_extreme"] = np.abs(z_scores) > z_threshold
+        logging.info(f"Extreme values flagged in column '{column}'.")
+        return data
+    except Exception as e:
+        logging.error(f"Error while flagging extreme values in column '{column}': {e}")
+        raise
 
 
 
