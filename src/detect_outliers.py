@@ -182,6 +182,23 @@ def detect_high_variance_features(data, threshold=1.0):
     logging.info(f"High variance features detected: {high_variance_features}")
     return high_variance_features
 
+def flag_extreme_values(data, column, z_threshold=3):
+    """
+    Flag extreme values in a column using the Z-score method.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        column (str): Column name to evaluate.
+        z_threshold (float): Z-score threshold for identifying extreme values.
+
+    Returns:
+        pd.DataFrame: DataFrame with an additional boolean column indicating extreme values.
+    """
+    logging.info(f"Flagging extreme values in column '{column}' using Z-score threshold: {z_threshold}")
+    
+
+
+
 
 if __name__ == "__main__":
     # Example usage
