@@ -1,5 +1,7 @@
 # Outlier Detection Tool
 
+Author: Yisong Chen
+
 ## Overview
 The **Outlier Detection Tool** is a powerful and efficient Python package designed for data scientists, statisticians, and analysts who require a precise method to detect anomalies in two-dimensional datasets. By leveraging the statistical rigor of **Cook's Distance**, this tool performs regression diagnostics on (x, y) data, identifies influential data points, and flags significant deviations from the general trend.
 
