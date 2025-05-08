@@ -154,3 +154,29 @@ def detect_constant_columns(data):
         logging.error(f"Error detecting constant columns: {e}")
         raise
 
+def convert_columns_to_numeric(data, columns):
+    """
+    Convert specified columns to numeric type, coercing errors to NaN.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        columns (list): List of column names to convert.
+
+    Returns:
+        pd.DataFrame: DataFrame with specified columns converted to numeric.
+    """
+    logging.info("Converting specified columns to numeric type...")
+    try:
+        data = data.copy()
+        for col in columns:
+            if col in data.columns:
+                data[col] = pd.to_numeric(data[col], errors='coerce')
+                logging.info(f"Column '{col}' converted to numeric.")
+            else:
+                logging.warning(f"Column '{col}' not found in the data.")
+        return data
+    except Exception as e:
+        logging.error(f"Error converting columns to numeric: {e}")
+        raise
+
+
