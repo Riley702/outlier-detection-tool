@@ -139,8 +139,10 @@ def detect_constant_columns(data):
     """
     Detect columns with a constant value across all rows.
     Args:
+
         data (pd.DataFrame): DataFrame containing the data.
     Returns:
+
         list: List of column names that have a constant value.
     """
     logging.info("Detecting constant columns...")
