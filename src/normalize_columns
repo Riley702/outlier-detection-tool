@@ -179,4 +179,31 @@ def convert_columns_to_numeric(data, columns):
         logging.error(f"Error converting columns to numeric: {e}")
         raise
 
+def detect_highly_correlated_columns(data, threshold=0.9):
+    """
+    Detect pairs of numerical columns with correlation above a specified threshold.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        threshold (float): Correlation coefficient threshold (default is 0.9).
+
+    Returns:
+        list of tuple: List of column name pairs that are highly correlated.
+    """
+    logging.info(f"Detecting highly correlated column pairs with threshold > {threshold}")
+    try:
+        corr_matrix = data.corr().abs()
+        correlated_pairs = []
+
+        for i in range(len(corr_matrix.columns)):
+            for j in range(i + 1, len(corr_matrix.columns)):
+                if corr_matrix.iloc[i, j] > threshold:
+                    col1 = corr_matrix.columns[i]
+                    col2 = corr_matrix.columns[j]
+                    correlated_pairs.append((col1, col2))
+                    logging.info(f"High correlation detected: {col1} and {col2} -> {corr_matrix.iloc[i, j]}")
+
+        return correlated_pairs
+
+
 
