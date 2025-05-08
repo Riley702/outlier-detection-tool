@@ -134,3 +134,21 @@ def fill_missing_values(data, columns, strategy="mean"):
     except Exception as e:
         logging.error(f"Error filling missing values: {e}")
         raise
+
+def detect_constant_columns(data):
+    """
+    Detect columns with a constant value across all rows.
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+    Returns:
+        list: List of column names that have a constant value.
+    """
+    logging.info("Detecting constant columns...")
+    try:
+        constant_cols = [col for col in data.columns if data[col].nunique() == 1]
+        logging.info(f"Constant columns found: {constant_cols}")
+        return constant_cols
+    except Exception as e:
+        logging.error(f"Error detecting constant columns: {e}")
+        raise
+
