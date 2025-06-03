@@ -207,5 +207,26 @@ def detect_highly_correlated_columns(data, threshold=0.9):
 
         return correlated_pairs
 
+def rename_columns(data, column_mapping):
+    """
+    Rename columns in the DataFrame using a provided mapping.
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        column_mapping (dict): Dictionary mapping old column names to new names.
+
+    Returns:
+        pd.DataFrame: DataFrame with renamed columns.
+    """
+    logging.info(f"Renaming columns: {column_mapping}")
+    try:
+        data = data.copy()
+        data.rename(columns=column_mapping, inplace=True)
+        logging.info("Columns renamed successfully.")
+        return data
+    except Exception as e:
+        logging.error(f"Error renaming columns: {e}")
+        raise
+
 
 
