@@ -230,6 +230,7 @@ def rename_columns(data, column_mapping):
 
 def detect_duplicate_rows(data, drop=False):
     """
+
     Detect duplicate rows in the DataFrame and optionally remove them.
     Args:
         data (pd.DataFrame): DataFrame containing the data.
@@ -237,6 +238,7 @@ def detect_duplicate_rows(data, drop=False):
     Returns:
         pd.DataFrame or pd.Index: If drop is True, returns DataFrame without duplicates;
                                   if False, returns index of duplicate rows.
+
     """
     logging.info("Checking for duplicate rows...")
     try:
