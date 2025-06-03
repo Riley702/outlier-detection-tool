@@ -228,5 +228,31 @@ def rename_columns(data, column_mapping):
         logging.error(f"Error renaming columns: {e}")
         raise
 
+def detect_duplicate_rows(data, drop=False):
+    """
+    Detect duplicate rows in the DataFrame and optionally remove them.
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        drop (bool): If True, return the DataFrame without duplicates; if False, just report them.
+    Returns:
+        pd.DataFrame or pd.Index: If drop is True, returns DataFrame without duplicates;
+                                  if False, returns index of duplicate rows.
+    """
+    logging.info("Checking for duplicate rows...")
+    try:
+        duplicates = data.duplicated()
+        duplicate_count = duplicates.sum()
+        logging.info(f"Found {duplicate_count} duplicate rows.")
+
+        if drop:
+            data_no_duplicates = data.drop_duplicates()
+            logging.info("Duplicate rows removed.")
+            return data_no_duplicates
+        else:
+            return data[duplicates]
+    except Exception as e:
+        logging.error(f"Error detecting duplicate rows: {e}")
+        raise
+
 
 
