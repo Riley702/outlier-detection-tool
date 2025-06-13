@@ -190,6 +190,19 @@ def detect_zero_variance_columns(data):
         logging.error(f"Error detecting zero variance columns: {e}")
         raise
 
+import json
+
+def save_summary_to_file(summary, file_path="summary_report.json"):
+    
+    logging.info(f"Saving summary statistics to file: {file_path}")
+    try:
+        with open(file_path, 'w') as f:
+            json.dump(summary, f, indent=4)
+        logging.info("Summary statistics saved successfully.")
+    except Exception as e:
+        logging.error(f"Error saving summary to file: {e}")
+        raise
+
 
 
 if __name__ == "__main__":
