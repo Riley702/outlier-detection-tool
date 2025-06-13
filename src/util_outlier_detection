@@ -193,6 +193,17 @@ def detect_zero_variance_columns(data):
 import json
 
 def save_summary_to_file(summary, file_path="summary_report.json"):
+
+    """
+    Save the outlier summary statistics to a file in JSON format.
+
+    Args:
+        summary (dict): Summary statistics dictionary.
+        file_path (str): Path to the output file (e.g., .json or .txt).
+
+    Returns:
+        None
+    """
     
     logging.info(f"Saving summary statistics to file: {file_path}")
     try:
