@@ -171,6 +171,26 @@ def main(input_file, threshold=0.5, output_file="output_with_outliers.csv"):
     except Exception as e:
         logging.error(f"Error occurred: {e}")
 
+def detect_zero_variance_columns(data):
+    """
+    Identify columns with zero variance (i.e., all values are the same).
+
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+
+    Returns:
+        list: List of column names with zero variance.
+    """
+    logging.info("Detecting columns with zero variance...")
+    try:
+        zero_var_cols = [col for col in data.columns if data[col].nunique() <= 1]
+        logging.info(f"Zero variance columns: {zero_var_cols}")
+        return zero_var_cols
+    except Exception as e:
+        logging.error(f"Error detecting zero variance columns: {e}")
+        raise
+
+
 
 if __name__ == "__main__":
     # Example usage
