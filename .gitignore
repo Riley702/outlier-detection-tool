@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+output_with_outliers.csv
+summary_report.json
