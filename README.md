@@ -22,3 +22,12 @@ print(summarize_outliers(df))
 ```bash
 outlier-detect --input data/data.csv --threshold 0.5 --output output_with_outliers.csv
 ```
+
+## Development
+
+```bash
+python -m venv .venv
+. .venv/bin/activate
+pip install -e '.[dev]'
+pytest -q
+```
