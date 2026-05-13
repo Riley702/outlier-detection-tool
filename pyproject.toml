@@ -19,7 +19,7 @@ classifiers = [
 dependencies = [
   "pandas>=1.5",
   "numpy>=1.23",
-  "statsmodels>=0.14",
+  "statsmodels>=0.14.6",
 ]
 
 [project.optional-dependencies]
