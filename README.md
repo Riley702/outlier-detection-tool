@@ -1,5 +1,7 @@
 author: Yisong Chen
 
+> Maintained as a lightweight toolkit for quick outlier analysis workflows.
+
 # Outlier Detection Tool
 
 Detect outliers in 2D (x, y) datasets using **Cook's distance**.
