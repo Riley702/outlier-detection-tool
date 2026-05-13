@@ -1,3 +1,5 @@
+author: Yisong Chen
+
 # Outlier Detection Tool
 
 Detect outliers in 2D (x, y) datasets using **Cook's distance**.
